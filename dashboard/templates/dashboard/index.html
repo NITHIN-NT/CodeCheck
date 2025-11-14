@@ -1,0 +1,157 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Django Code Review Dashboard</title>
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic"
+      crossorigin
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    
+    <link rel="stylesheet" href="{% static 'dashboard/styles.css' %}" />
+    
+    <script>
+      window.reviewDashboard = {
+        endpoint: "{% url 'dashboard:review-code' %}",
+      };
+    </script>
+    <script defer src="{% static 'dashboard/dashboard.js' %}"></script>
+  </head>
+  <body>
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">Interactive summary of your consolidated code review</p>
+        <h1 id="dashboardTitle">Code Review Dashboard</h1>
+      </div>
+      <div class="tech-chip" id="techChip">Tech stack: HTML · CSS · Gemini API</div>
+    </header>
+
+    <main class="dashboard-layout">
+      <section class="panel input-panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Analyzer</p>
+            <h2>Paste code for instant review</h2>
+          </div>
+          <div class="status-pill" id="statusPill">Idle</div>
+        </div>
+        <form id="reviewForm" class="review-form">
+          {% csrf_token %}
+          <label for="codeInput" class="sr-only">Code snippet</label>
+          <textarea
+            id="codeInput"
+            name="code"
+            placeholder="Paste any code snippet (Django, React, Node.js, Python, JavaScript, etc.)..."
+            spellcheck="false"
+          ></textarea>
+          <div class="form-actions">
+            <button type="submit" class="primary">Run Gemini Analysis</button>
+            <p id="formHint">Reports stay local—API call uses your GEMINI_API_KEY.</p>
+          </div>
+        </form>
+      </section>
+
+      <section class="metrics-grid">
+        <article class="metric-card critical">
+          <p class="eyebrow">Critical</p>
+          <h3><span data-count="critical">0</span> blockers</h3>
+          <p>Issues requiring immediate action.</p>
+        </article>
+        <article class="metric-card best">
+          <p class="eyebrow">Best Practices</p>
+          <h3><span data-count="best">0</span> gaps</h3>
+          <p>Standards and patterns to tighten.</p>
+        </article>
+        <article class="metric-card performance">
+          <p class="eyebrow" id="performanceLabel">Performance</p>
+          <h3><span data-count="performance">0</span> insights</h3>
+          <p id="performanceDescription">Performance optimization insights.</p>
+        </article>
+        <article class="metric-card strengths">
+          <p class="eyebrow">Strengths</p>
+          <h3><span data-count="strengths">0</span> highlights</h3>
+          <p>What’s working especially well.</p>
+        </article>
+      </section>
+
+      <section class="panel summary-panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Interactive Summary</p>
+            <h2>Consolidated review</h2>
+          </div>
+        </div>
+        <p id="summaryOverview" class="summary-overview">
+          Awaiting review. Paste code to generate insights with Gemini.
+        </p>
+        <div class="summary-columns">
+          <div>
+            <h3>Highlights</h3>
+            <ul id="summaryHighlights" class="tag-list empty">
+              <li>No highlights yet.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Next steps</h3>
+            <ul id="summaryNextSteps" class="tag-list empty">
+              <li>No actions yet.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="details-grid">
+        <div class="detail-column">
+          <article class="detail-section" id="criticalSection">
+            <div class="section-header">
+              <h3>Critical findings</h3>
+            </div>
+            <div id="criticalList" class="issue-list empty">
+              <p>Run an analysis to populate blockers.</p>
+            </div>
+          </article>
+
+          <article class="detail-section" id="bestSection">
+            <div class="section-header">
+              <h3>Best practices</h3>
+            </div>
+            <div id="bestList" class="issue-list empty">
+              <p>Gemini will map pattern gaps here.</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="detail-column">
+          <article class="detail-section" id="performanceSection">
+            <div class="section-header">
+              <h3 id="performanceSectionTitle">Performance</h3>
+            </div>
+            <div id="performanceList" class="issue-list empty">
+              <p id="performancePlaceholder">Performance insights will land here.</p>
+            </div>
+          </article>
+
+          <article class="detail-section" id="strengthSection">
+            <div class="section-header">
+              <h3>Strengths</h3>
+            </div>
+            <ul id="strengthList" class="strength-list empty">
+              <li>Positive findings will appear here.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

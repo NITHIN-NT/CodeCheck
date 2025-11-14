@@ -1,2 +1,0 @@
-# Vercel serverless functions directory
-

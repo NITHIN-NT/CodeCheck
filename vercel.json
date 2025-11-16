@@ -1,18 +1,5 @@
 {
     "version": 2,
-    "builds": [
-      {
-        "src": "review_dashboard/wsgi.py",
-        "use": "@vercel/python",
-        "config": {
-          "maxLambdaSize": "50mb"
-        }
-      },
-      {
-        "src": "staticfiles/**/*",
-        "use": "@vercel/static"
-      }
-    ],
     "routes": [
       {
         "src": "/static/(.*)",

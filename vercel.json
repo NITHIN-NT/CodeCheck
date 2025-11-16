@@ -1,19 +1,20 @@
 {
-    "version": 2,
-    "outputDirectory": "staticfiles",
-    "routes": [
-      {
-        "src": "/static/(.*)",
-        "dest": "/staticfiles/$1"
-      },
-      {
-        "src": "/(.*)",
-        "dest": "review_dashboard/wsgi.py"
-      }
-    ],
-    "env": {
-      "DJANGO_SETTINGS_MODULE": "review_dashboard.settings",
-      "PYTHONUNBUFFERED": "1"
+  "builds": [
+    {
+      "src": "review_dashboard/wsgi.py",
+      "use": "@ardnt/vercel-python-wsgi",
+      "config": { "maxLambdaSize": "15mb", "runtime": "python3.10" }
     }
-  }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "review_dashboard/wsgi.py"
+    }
+  ]
+}
   
